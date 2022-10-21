@@ -28,7 +28,7 @@ jobs:
           cache: true
       - name: "install gitsign"
         run: |
-          go install github.com/sigstore/gitsign/cmd/gitsign-attest@94337a4572db6a2b3a593ba04dd5ad23ae72c498
+          go install github.com/sigstore/gitsign/cmd/gitsign-attest@33544a49e8b05038daa75f60485c115cc3902e69
       - name: "Attest"
         run: |
           set -e
