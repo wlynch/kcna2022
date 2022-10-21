@@ -22,7 +22,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export SHA=$(git rev-parse HEAD)
-          export PR=$(gh pr list --search ${SHA} --state=all --json "number,url,reviewDecision,reviews")
+          export PR=$(gh pr list --search ${SHA} --state=all --json "number,url,reviewDecision,reviews,author,state,baseRefName")
           
           # Hack to generate SLSA-like provenance
           echo '{"_type": "https://in-toto.io/Statement/v0.1","predicateType": "api.github.com/PullRequest","subject": [{"digest": {"sha1": "${SHA}"}}], "predicate": {"pull_requests": ${PR}}}' | envsubst | tee review.json
