@@ -24,7 +24,7 @@ jobs:
         uses: puerco/bom-installer@aa0837e37b6965b5fc50adfad0683ec3c0a2c2c4
       - name: "Generate SBOM"
         run: |
-          bom generate . -o sbom.spdx
+          bom generate . -o spdx.sbom
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
@@ -37,6 +37,6 @@ jobs:
           git config --global user.name "Attest"
           
           git fetch origin refs/attestations/commits:refs/attestations/commits || true
-          gitsign-attest -f sbom.spdx --type spdx
+          gitsign-attest -f spdx.sbom --type custom
 
           git push origin refs/attestations/commits
