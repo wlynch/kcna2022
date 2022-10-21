@@ -32,6 +32,7 @@ jobs:
           go install github.com/sigstore/gitsign/cmd/gitsign-attest@2153fb95ffe3e69818d89a58648c54fa65108e1b
       - name: "Attest"
         run: |
+          set -e
           git config --global user.email "gitsign-attest@noreply.github.com"
           git config --global user.name "Attest"
           

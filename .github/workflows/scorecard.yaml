@@ -11,7 +11,6 @@ jobs:
     name: Scorecards analysis
     runs-on: ubuntu-latest
     permissions:
-      # Used to receive a badge. (Upcoming feature)
       id-token: write
       actions: read
       contents: write
@@ -24,34 +23,15 @@ jobs:
         with:
           results_file: results.json
           results_format: json
-          # (Optional) Read-only PAT token. Uncomment the `repo_token` line below if:
-          # - you want to enable the Branch-Protection check on a *public* repository, or
-          # - you are installing Scorecards on a *private* repository
-          # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
-          #repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
-
-          # Publish the results for public repositories to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results. 
-          # For private repositories, `publish_results` will automatically be set to `false`, regardless 
-          # of the value entered here.
-          #publish_results: true
-
-      # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
-      # format to the repository Actions tab.
-      - name: "Upload artifact"
-        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3.0.0
-        with:
-          name: Scorecard results
-          path: results.json
-          retention-days: 5
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
       - name: "install gitsign"
         run: |
-          go install github.com/sigstore/gitsign/cmd/gitsign-attest@2153fb95ffe3e69818d89a58648c54fa65108e1b
+          go install github.com/sigstore/gitsign/cmd/gitsign-attest@94337a4572db6a2b3a593ba04dd5ad23ae72c498
       - name: "Attest"
         run: |
+          set -e
           git config --global user.email "gitsign-attest@noreply.github.com"
           git config --global user.name "Attest"
           
