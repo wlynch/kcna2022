@@ -1,8 +1,6 @@
 name: SBOM Generate
 on:
-  # Only the default branch is supported.
   push:
-    branches: [ main, master ]
 
 # Declare default permissions as read only.
 permissions: read-all

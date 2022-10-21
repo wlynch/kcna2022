@@ -1,4 +1,4 @@
-name: Scorecards
+name: SLSA Source Attestation
 on:
   push:
 
@@ -6,22 +6,20 @@ on:
 permissions: read-all
 
 jobs:
-  analysis:
-    name: Scorecards analysis
+  sbom:
+    name: SLSA
     runs-on: ubuntu-latest
     permissions:
+      # Used to receive a badge. (Upcoming feature)
       id-token: write
-      actions: read
       contents: write
     
     steps:
       - name: "Checkout code"
         uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3.0.0
-      - name: "Run analysis"
-        uses: ossf/scorecard-action@main
-        with:
-          results_file: results.json
-          results_format: json
+      - name: "Generate provenance"
+        run: |
+          gh pr list --search $(git rev-parse HEAD) --state=all --json "number,url,reviewDecision,reviews" > review.json
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
@@ -35,6 +33,6 @@ jobs:
           git config --global user.name "Attest"
           
           git fetch origin refs/attestations/commits:refs/attestations/commits || true
-          gitsign-attest -f results.json --type custom
+          gitsign-attest -f review.json --type custom
 
           git push origin refs/attestations/commits
