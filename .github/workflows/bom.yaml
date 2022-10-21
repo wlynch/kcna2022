@@ -37,6 +37,6 @@ jobs:
           git config --global user.name "Attest"
           
           git fetch origin refs/attestations/commits:refs/attestations/commits || true
-          gitsign-attest -f spdx.sbom --type custom
+          gitsign-attest -f spdx.sbom --type spdx
 
           git push origin refs/attestations/commits
