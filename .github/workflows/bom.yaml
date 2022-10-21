@@ -10,8 +10,8 @@ permissions: read-all
 
 jobs:
   sbom:
-    name: Scorecards analysis
-    runs-on: cgr.dev/chainguard/wolfi-base
+    name: SBOM
+    runs-on: ubuntu-latest
     permissions:
       # Used to receive a badge. (Upcoming feature)
       id-token: write

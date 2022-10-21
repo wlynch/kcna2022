@@ -11,7 +11,7 @@ permissions: read-all
 jobs:
   analysis:
     name: Scorecards analysis
-    runs-on: cgr.dev/chainguard/wolfi-base
+    runs-on: ubuntu-latest
     permissions:
       # Used to receive a badge. (Upcoming feature)
       id-token: write
