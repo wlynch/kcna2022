@@ -1,5 +1,4 @@
 name: Make a PR
-description: This action makes a new PR using Gitsign on a regular cron.
 
 on:
   workflow_dispatch:
