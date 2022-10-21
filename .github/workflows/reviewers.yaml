@@ -26,7 +26,7 @@ jobs:
           export PR=$(gh pr list --search ${SHA} --state=all --json "number,url,reviewDecision,reviews,author,state,baseRefName")
           
           # Hack to generate SLSA-like provenance
-          echo '{"pull_requests": ${PR}' | envsubst | tee review.json
+          echo '{"pull_requests": ${PR}}' | envsubst | tee review.json
       - uses: actions/setup-go@v3
         with:
           go-version: '1.18'
