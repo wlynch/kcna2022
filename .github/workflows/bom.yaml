@@ -1,0 +1,42 @@
+name: SBOM Generate
+on:
+  # Only the default branch is supported.
+  branch_protection_rule:
+  push:
+    branches: [ main, master ]
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  sbom:
+    name: Scorecards analysis
+    runs-on: cgr.dev/chainguard/wolfi-base
+    permissions:
+      # Used to receive a badge. (Upcoming feature)
+      id-token: write
+      contents: write
+    
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3.0.0
+      - name: Install Kubernetes SBOM Tool
+        uses: puerco/bom-installer@aa0837e37b6965b5fc50adfad0683ec3c0a2c2c4
+      - name: "Generate SBOM"
+        run: |
+          bom generate . -o sbom.spdx
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.18'
+      - name: "install gitsign"
+        run: |
+          go install github.com/sigstore/gitsign/cmd/gitsign-attest@2153fb95ffe3e69818d89a58648c54fa65108e1b
+      - name: "Attest"
+        run: |
+          git config --global user.email "gitsign-attest@noreply.github.com"
+          git config --global user.name "Attest"
+          
+          git fetch origin refs/attestations/commits:refs/attestations/commits || true
+          gitsign-attest -f sbom.spdx --type spdx
+
+          git push origin refs/attestations/commits
