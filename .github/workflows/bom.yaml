@@ -1,7 +1,6 @@
 name: SBOM Generate
 on:
   # Only the default branch is supported.
-  branch_protection_rule:
   push:
     branches: [ main, master ]
 

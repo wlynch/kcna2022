@@ -1,7 +1,5 @@
-name: Scorecards supply-chain security
+name: Scorecards
 on:
-  # Only the default branch is supported.
-  branch_protection_rule:
   push:
     branches: [ main, master ]
 
@@ -30,7 +28,7 @@ jobs:
           # - you want to enable the Branch-Protection check on a *public* repository, or
           # - you are installing Scorecards on a *private* repository
           # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-pat.
-          repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
+          #repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
 
           # Publish the results for public repositories to enable scorecard badges. For more details, see
           # https://github.com/ossf/scorecard-action#publishing-results. 
